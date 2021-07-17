@@ -13,6 +13,7 @@ static Sprite *sprites;
 unsigned int spritesCount = 0;
 
 void spritesLazyStart() {
+	printf("%s\n", __FILE__);
 	if (spritesCount == 0) {
 		sprites = malloc(sizeof(Sprite) * MAX_SPRITES);
 
