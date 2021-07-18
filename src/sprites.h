@@ -8,6 +8,11 @@
 #include "sourcePrint.h";
 #include "renderer.h";
 
+typedef struct SpriteNodeStruct {
+	double x;
+	double y;
+} SpriteNode;
+
 void spritesLazyStart();
 
 void spritesAdd(SDL_Texture *texture, char *id);
