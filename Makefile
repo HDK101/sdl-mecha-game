@@ -5,7 +5,7 @@ SOURCES=$(wildcard src/*.c)
 OBJECTS=$(patsubst %.c, %.o, $(SOURCES))
 EXE=bin/main
 
-all: $(EXE)
+all: clean $(EXE)
 
 $(EXE): $(OBJECTS)
 	@rsync -r assets bin
