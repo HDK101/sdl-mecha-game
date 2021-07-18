@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "hash.h"
+#include "sourcePrint.h";
 
 void spritesLazyStart();
 

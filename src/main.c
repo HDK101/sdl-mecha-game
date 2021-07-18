@@ -73,7 +73,7 @@ int main(int argc, char* args[]) {
 		SDL_Event e;
 
 		SDL_Texture *texture = spritesLoadTexture("preview.png", renderer);
-		texture = spritesLoadTexture("preview.png", renderer);
+		SDL_Texture *bigchungus = spritesLoadTexture("bigchungus.png", renderer);
 		SDL_Rect rect;
 
 		rect.x = 32;
@@ -88,6 +88,7 @@ int main(int argc, char* args[]) {
 			SDL_RenderClear(renderer);
 
 			SDL_RenderCopyEx(renderer, texture, NULL, &rect, 50, NULL, SDL_FLIP_NONE);
+			SDL_RenderCopyEx(renderer, bigchungus, NULL, &rect, 50, NULL, SDL_FLIP_NONE);
 
 			SDL_RenderPresent(renderer);
 

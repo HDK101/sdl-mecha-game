@@ -13,7 +13,6 @@ static Sprite *sprites;
 unsigned int spritesCount = 0;
 
 void spritesLazyStart() {
-	printf("%s\n", __FILE__);
 	if (spritesCount == 0) {
 		sprites = malloc(sizeof(Sprite) * MAX_SPRITES);
 
@@ -26,12 +25,11 @@ void spritesLazyStart() {
 
 void spritesAdd(SDL_Texture *texture, char *id) {
 	if (spritesCount >= MAX_SPRITES) {
-		printf("Could not cache sprites, max sprites count reached\n");
+		WRITE_LOG("Could not cache sprites, max sprites count reached\n");
 		return;
 	}
 
 	unsigned int index = hash(id) % MAX_SPRITES;
-	printf("%i\n", index);
 
 	spritesCount += 1;
 	sprites[index].texture = texture;
@@ -67,19 +65,19 @@ SDL_Texture* spritesLoadTexture(char *filename, SDL_Renderer *renderer) {
 	strncat(path, spritesPath, strlen(spritesPath));
 	strncat(path, filename, strlen(filename));
 
-	printf("%s\n", path);
+	WRITE_LOG("Path to load: %s\n", path);
 
 	SDL_Texture *newTexture = NULL;
 
 	SDL_Surface *loadedSurface = IMG_Load(path);
 
 	if (loadedSurface == NULL) {
-		printf("Unable to load image. SDL Image Error: %s", IMG_GetError());
+		WRITE_LOG("Unable to load image. SDL Image Error: %s", IMG_GetError());
 	}
 	else {
 		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
 		if (newTexture == NULL) {
-			printf("Unable to create texture, SDL Error: %s\n", SDL_GetError());
+			WRITE_LOG("Unable to create texture, SDL Error: %s\n", SDL_GetError());
 		}
 
 		SDL_FreeSurface(loadedSurface);
