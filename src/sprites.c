@@ -46,7 +46,7 @@ void spritesDestroy() {
 	free(sprites);
 }
 
-SDL_Texture* spritesLoadTexture(char *filename, SDL_Renderer *renderer) {
+SDL_Texture* spritesLoadTexture(char *filename) {
 	spritesLazyStart();
 	
 	unsigned int index = hash(filename) % MAX_SPRITES;
@@ -75,7 +75,7 @@ SDL_Texture* spritesLoadTexture(char *filename, SDL_Renderer *renderer) {
 		WRITE_LOG("Unable to load image. SDL Image Error: %s", IMG_GetError());
 	}
 	else {
-		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+		newTexture = SDL_CreateTextureFromSurface(rendererGet(), loadedSurface);
 		if (newTexture == NULL) {
 			WRITE_LOG("Unable to create texture, SDL Error: %s\n", SDL_GetError());
 		}

@@ -6,6 +6,7 @@
 
 #include "hash.h"
 #include "sourcePrint.h";
+#include "renderer.h";
 
 void spritesLazyStart();
 
@@ -13,6 +14,6 @@ void spritesAdd(SDL_Texture *texture, char *id);
 
 void spritesDestroy();
 
-SDL_Texture *spritesLoadTexture(char *filePath, SDL_Renderer *renderer);
+SDL_Texture *spritesLoadTexture(char *filePath);
 
 #endif
