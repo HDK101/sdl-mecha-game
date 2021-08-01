@@ -1,6 +1,6 @@
 #include "sprites.h"
 
-const unsigned int MAX_SPRITES = 5000;
+#define MAX_SPRITES 5000
 
 typedef struct SpriteListNodeStruct {
 	SDL_Texture *texture;
@@ -12,7 +12,10 @@ static char *spritesPath = "assets/sprites/";
 static Sprite *sprites;
 unsigned int spritesCount = 0;
 
-void spritesLazyStart() {
+static SpriteNode *spritesActive[MAX_SPRITES];
+unsigned int spritesActiveCount = 0;
+
+void spritesLazyStart(void) {
 	if (spritesCount == 0) {
 		sprites = malloc(sizeof(Sprite) * MAX_SPRITES);
 
@@ -36,7 +39,9 @@ void spritesAdd(SDL_Texture *texture, char *id) {
 	sprites[index].file = id;
 }
 
-void spritesDestroy() {
+void spritesDestroy(void) {
+	if (spritesCount == 0) return;
+
 	for (int i = 0; i < MAX_SPRITES; i++) {
 		if (sprites[i].texture != NULL) {
 			SDL_DestroyTexture(sprites[i].texture);
@@ -88,4 +93,53 @@ SDL_Texture* spritesLoadTexture(char *filename) {
 	free(path);
 
 	return newTexture;
+}
+
+void spritesRender(void) {
+	SDL_Renderer *renderer = rendererGet();
+
+	SDL_RenderClear(renderer);
+
+	SDL_Rect rect;
+	for (unsigned int i = 0; i < spritesActiveCount; i++) {
+		SpriteNode *currentSpriteNode = spritesActive[i];
+		if (!currentSpriteNode->visible) continue;
+		rect.x = currentSpriteNode->position.x;
+		rect.y = currentSpriteNode->position.y;
+		rect.w = currentSpriteNode->size.x;
+		rect.h = currentSpriteNode->size.y;
+		SDL_RenderCopyEx(renderer, currentSpriteNode->texture, NULL, &rect, currentSpriteNode->angle, NULL, SDL_FLIP_NONE);
+	}
+	SDL_RenderPresent(renderer);
+}
+
+void spritesActiveAdd(SpriteNode *spriteNode) {
+	if (spritesActiveCount >= MAX_SPRITES) {
+		WRITE_LOG("Max sprites reached, could not create store\n");
+		return;
+	}
+
+	spritesActive[spritesActiveCount] = spriteNode;
+	spritesActiveCount++;
+}
+
+SpriteNode* spritesCreateNode(char *textureName) {
+	SpriteNode *spriteNode = malloc(sizeof(SpriteNode));
+	spriteNode->position.x = 0;
+	spriteNode->position.y = 0;
+	spriteNode->size.x = 0;
+	spriteNode->size.y = 0;
+	spriteNode->texture = spritesLoadTexture(textureName);
+	spriteNode->flip = false;
+	spriteNode->visible = true;
+	spriteNode->queueToDestroy = false;
+	spriteNode->angle = 0;
+	spritesActiveAdd(spriteNode);
+	return spriteNode;
+}
+
+void spritesActiveDestroy(void) {
+	for (unsigned int i = 0; i < spritesActiveCount; i++) {
+		free(spritesActive[i]);
+	}
 }
