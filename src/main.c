@@ -7,6 +7,7 @@
 #include "sprites.h";
 #include "hash.h";
 #include "renderer.h";
+#include "game.h";
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -57,6 +58,7 @@ void terminate() {
 	rendererDestroy();
 
 	spritesDestroy();
+	spritesActiveDestroy();
 
 	window = NULL;
 	renderer = NULL;
@@ -73,30 +75,18 @@ int main(int argc, char* args[]) {
 		bool quit = false;
 		SDL_Event e;
 
-		SDL_Texture *texture = spritesLoadTexture("preview.png");
-		SDL_Texture *bigchungus = spritesLoadTexture("bigchungus.png");
-		SDL_Rect rect;
+		SpriteNode *spriteNode = spritesCreateNode("bigchungus.png");
+		spriteNode->position.x = 20;
+		spriteNode->size.x = 20;
+		spriteNode->size.y = 20;
+		spriteNode->angle = 20;
 
-		rect.x = 32;
-		rect.y = 32;
-		rect.h = 256;
-		rect.w = 256;
-
+		gameStart();
 
 		while (!quit) {
-			double timeElapsed = (SDL_GetTicks()) / 1000.0;
-
-			SDL_RenderClear(renderer);
-
-			SDL_RenderCopyEx(renderer, texture, NULL, &rect, 50, NULL, SDL_FLIP_NONE);
-			SDL_RenderCopyEx(renderer, bigchungus, NULL, &rect, 50, NULL, SDL_FLIP_NONE);
-
-			SDL_RenderPresent(renderer);
-
-			//printf("Ticks: %d\n", SDL_GetTicks());
-			SDL_Delay(16);
-
 			while (SDL_PollEvent(&e) != 0) {
+				gameEvent(&e);
+
 				if (e.type == SDL_QUIT) {
 					quit = true;
 				}
@@ -104,10 +94,11 @@ int main(int argc, char* args[]) {
 					printf("KeyCode: %d\n", e.key.keysym.sym);
 				}
 			}
-		}
 
-		SDL_DestroyTexture(texture);
-		texture = NULL;
+			gameLoop();
+			spritesRender();
+			SDL_Delay(16);
+		}
 	}
 
 	terminate();
