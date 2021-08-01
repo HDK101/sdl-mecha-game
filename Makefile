@@ -1,11 +1,11 @@
 CC=gcc
-CFLAGS=-w
+CFLAGS=-w -Wall
 LIBS=-lm -lSDL2 -lSDL2_image
 SOURCES=$(wildcard src/*.c)
 OBJECTS=$(patsubst %.c, %.o, $(SOURCES))
 EXE=bin/main
 
-all: clean $(EXE)
+all: $(EXE)
 
 $(EXE): $(OBJECTS)
 	@rsync -r assets bin
