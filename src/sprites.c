@@ -1,6 +1,6 @@
 #include "sprites.h"
 
-const unsigned int MAX_SPRITES = 5000;
+#define MAX_SPRITES 5000
 
 typedef struct SpriteListNodeStruct {
 	SDL_Texture *texture;
@@ -12,8 +12,10 @@ static char *spritesPath = "assets/sprites/";
 static Sprite *sprites;
 unsigned int spritesCount = 0;
 
-void spritesLazyStart() {
-	printf("%s\n", __FILE__);
+static SpriteNode *spritesActive[MAX_SPRITES];
+unsigned int spritesActiveCount = 0;
+
+void spritesLazyStart(void) {
 	if (spritesCount == 0) {
 		sprites = malloc(sizeof(Sprite) * MAX_SPRITES);
 
@@ -26,19 +28,20 @@ void spritesLazyStart() {
 
 void spritesAdd(SDL_Texture *texture, char *id) {
 	if (spritesCount >= MAX_SPRITES) {
-		printf("Could not cache sprites, max sprites count reached\n");
+		WRITE_LOG("Could not cache sprites, max sprites count reached\n");
 		return;
 	}
 
 	unsigned int index = hash(id) % MAX_SPRITES;
-	printf("%i\n", index);
 
 	spritesCount += 1;
 	sprites[index].texture = texture;
 	sprites[index].file = id;
 }
 
-void spritesDestroy() {
+void spritesDestroy(void) {
+	if (spritesCount == 0) return;
+
 	for (int i = 0; i < MAX_SPRITES; i++) {
 		if (sprites[i].texture != NULL) {
 			SDL_DestroyTexture(sprites[i].texture);
@@ -48,7 +51,7 @@ void spritesDestroy() {
 	free(sprites);
 }
 
-SDL_Texture* spritesLoadTexture(char *filename, SDL_Renderer *renderer) {
+SDL_Texture* spritesLoadTexture(char *filename) {
 	spritesLazyStart();
 	
 	unsigned int index = hash(filename) % MAX_SPRITES;
@@ -67,19 +70,19 @@ SDL_Texture* spritesLoadTexture(char *filename, SDL_Renderer *renderer) {
 	strncat(path, spritesPath, strlen(spritesPath));
 	strncat(path, filename, strlen(filename));
 
-	printf("%s\n", path);
+	WRITE_LOG("Path to load: %s\n", path);
 
 	SDL_Texture *newTexture = NULL;
 
 	SDL_Surface *loadedSurface = IMG_Load(path);
 
 	if (loadedSurface == NULL) {
-		printf("Unable to load image. SDL Image Error: %s", IMG_GetError());
+		WRITE_LOG("Unable to load image. SDL Image Error: %s", IMG_GetError());
 	}
 	else {
-		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+		newTexture = SDL_CreateTextureFromSurface(rendererGet(), loadedSurface);
 		if (newTexture == NULL) {
-			printf("Unable to create texture, SDL Error: %s\n", SDL_GetError());
+			WRITE_LOG("Unable to create texture, SDL Error: %s\n", SDL_GetError());
 		}
 
 		SDL_FreeSurface(loadedSurface);
@@ -90,4 +93,53 @@ SDL_Texture* spritesLoadTexture(char *filename, SDL_Renderer *renderer) {
 	free(path);
 
 	return newTexture;
+}
+
+void spritesRender(void) {
+	SDL_Renderer *renderer = rendererGet();
+
+	SDL_RenderClear(renderer);
+
+	SDL_Rect rect;
+	for (unsigned int i = 0; i < spritesActiveCount; i++) {
+		SpriteNode *currentSpriteNode = spritesActive[i];
+		if (!currentSpriteNode->visible) continue;
+		rect.x = currentSpriteNode->position.x;
+		rect.y = currentSpriteNode->position.y;
+		rect.w = currentSpriteNode->size.x;
+		rect.h = currentSpriteNode->size.y;
+		SDL_RenderCopyEx(renderer, currentSpriteNode->texture, NULL, &rect, currentSpriteNode->angle, NULL, SDL_FLIP_NONE);
+	}
+	SDL_RenderPresent(renderer);
+}
+
+void spritesActiveAdd(SpriteNode *spriteNode) {
+	if (spritesActiveCount >= MAX_SPRITES) {
+		WRITE_LOG("Max sprites reached, could not create store\n");
+		return;
+	}
+
+	spritesActive[spritesActiveCount] = spriteNode;
+	spritesActiveCount++;
+}
+
+SpriteNode* spritesCreateNode(char *textureName) {
+	SpriteNode *spriteNode = malloc(sizeof(SpriteNode));
+	spriteNode->position.x = 0;
+	spriteNode->position.y = 0;
+	spriteNode->size.x = 0;
+	spriteNode->size.y = 0;
+	spriteNode->texture = spritesLoadTexture(textureName);
+	spriteNode->flip = false;
+	spriteNode->visible = true;
+	spriteNode->queueToDestroy = false;
+	spriteNode->angle = 0;
+	spritesActiveAdd(spriteNode);
+	return spriteNode;
+}
+
+void spritesActiveDestroy(void) {
+	for (unsigned int i = 0; i < spritesActiveCount; i++) {
+		free(spritesActive[i]);
+	}
 }

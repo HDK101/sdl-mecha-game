@@ -6,6 +6,7 @@
 
 #include "sprites.h";
 #include "hash.h";
+#include "renderer.h";
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -14,7 +15,7 @@ SDL_Window *window = NULL;
 
 SDL_Surface *screenSurface = NULL;
 
-SDL_Renderer *renderer = NULL;
+static SDL_Renderer *renderer = NULL;
 
 bool init() {
 	bool success = true;
@@ -29,7 +30,7 @@ bool init() {
 			success = false;
 		}
 		else {
-			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+			renderer = rendererCreate(window);
 			if (renderer == NULL) {
 				printf("Failed to create renderer, SDL Error: %s\n", SDL_GetError());
 				success = false;
@@ -53,7 +54,7 @@ bool init() {
 
 void terminate() {
 	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(renderer);
+	rendererDestroy();
 
 	spritesDestroy();
 
@@ -72,8 +73,8 @@ int main(int argc, char* args[]) {
 		bool quit = false;
 		SDL_Event e;
 
-		SDL_Texture *texture = spritesLoadTexture("preview.png", renderer);
-		texture = spritesLoadTexture("preview.png", renderer);
+		SDL_Texture *texture = spritesLoadTexture("preview.png");
+		SDL_Texture *bigchungus = spritesLoadTexture("bigchungus.png");
 		SDL_Rect rect;
 
 		rect.x = 32;
@@ -88,6 +89,7 @@ int main(int argc, char* args[]) {
 			SDL_RenderClear(renderer);
 
 			SDL_RenderCopyEx(renderer, texture, NULL, &rect, 50, NULL, SDL_FLIP_NONE);
+			SDL_RenderCopyEx(renderer, bigchungus, NULL, &rect, 50, NULL, SDL_FLIP_NONE);
 
 			SDL_RenderPresent(renderer);
 
