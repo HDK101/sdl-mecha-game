@@ -12,7 +12,7 @@ static char *spritesPath = "assets/sprites/";
 static Sprite *sprites;
 unsigned int spritesCount = 0;
 
-static SpriteNode *spritesActive[MAX_SPRITES];
+static SpriteNode *spritesActive;
 unsigned int spritesActiveCount = 0;
 
 void spritesLazyStart(void) {
@@ -102,7 +102,7 @@ void spritesRender(void) {
 
 	SDL_Rect rect;
 	for (unsigned int i = 0; i < spritesActiveCount; i++) {
-		SpriteNode *currentSpriteNode = spritesActive[i];
+		SpriteNode *currentSpriteNode = &spritesActive[i];
 		if (!currentSpriteNode->visible) continue;
 		rect.x = currentSpriteNode->position.x;
 		rect.y = currentSpriteNode->position.y;
@@ -113,18 +113,15 @@ void spritesRender(void) {
 	SDL_RenderPresent(renderer);
 }
 
-void spritesActiveAdd(SpriteNode *spriteNode) {
-	if (spritesActiveCount >= MAX_SPRITES) {
-		WRITE_LOG("Max sprites reached, could not create store\n");
-		return;
+SpriteNode* spritesCreateNode(char *textureName) {
+	if (spritesActiveCount == 0) {
+		spritesActive = malloc(sizeof(SpriteNode));
+	}
+	else {
+		spritesActive = realloc(spritesActive, sizeof(SpriteNode) * (spritesActiveCount + 1));
 	}
 
-	spritesActive[spritesActiveCount] = spriteNode;
-	spritesActiveCount++;
-}
-
-SpriteNode* spritesCreateNode(char *textureName) {
-	SpriteNode *spriteNode = malloc(sizeof(SpriteNode));
+	SpriteNode *spriteNode = &spritesActive[spritesActiveCount];
 	spriteNode->position.x = 0;
 	spriteNode->position.y = 0;
 	spriteNode->size.x = 0;
@@ -134,12 +131,12 @@ SpriteNode* spritesCreateNode(char *textureName) {
 	spriteNode->visible = true;
 	spriteNode->queueToDestroy = false;
 	spriteNode->angle = 0;
-	spritesActiveAdd(spriteNode);
+	
+	spritesActiveCount++;
+
 	return spriteNode;
 }
 
 void spritesActiveDestroy(void) {
-	for (unsigned int i = 0; i < spritesActiveCount; i++) {
-		free(spritesActive[i]);
-	}
+	free(spritesActive);
 }
