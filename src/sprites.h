@@ -27,8 +27,6 @@ void spritesAdd(SDL_Texture *texture, char *id);
 
 void spritesDestroy(void);
 
-void spritesActiveAdd(SpriteNode *spriteNode);
-
 void spritesRender(void);
 
 SpriteNode* spritesCreateNode(char *textureName);
