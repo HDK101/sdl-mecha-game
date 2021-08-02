@@ -90,9 +90,6 @@ int main(int argc, char* args[]) {
 				if (e.type == SDL_QUIT) {
 					quit = true;
 				}
-				else if (e.type == SDL_KEYDOWN) {
-					printf("KeyCode: %d\n", e.key.keysym.sym);
-				}
 			}
 
 			gameLoop();

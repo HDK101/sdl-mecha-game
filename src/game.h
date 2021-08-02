@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <math.h>
 #include "sprites.h";
 
 void gameStart(void);
