@@ -8,6 +8,7 @@
 #include "hash.h";
 #include "renderer.h";
 #include "game.h";
+#include "tilemap.h";
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -93,7 +94,12 @@ int main(int argc, char* args[]) {
 			}
 
 			gameLoop();
+
+			spritesClearRender();
+			tilemapRender();
 			spritesRender();
+			spritesDirectDrawUpdate();
+			
 			SDL_Delay(16);
 		}
 	}

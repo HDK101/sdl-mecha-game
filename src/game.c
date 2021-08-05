@@ -8,6 +8,8 @@ void gameStart() {
 	spriteNode->position.y = 0;
 	spriteNode->size.x = 32;
 	spriteNode->size.y = 32;
+
+	tilemapCreate(25, 25 , 32);
 }
 
 void gameEvent(SDL_Event *event) {
@@ -28,5 +30,4 @@ void gameEvent(SDL_Event *event) {
 }
 
 void gameLoop(void) {
-	spriteNode->visible = !spriteNode->visible;
 }

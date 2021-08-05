@@ -95,10 +95,22 @@ SDL_Texture* spritesLoadTexture(char *filename) {
 	return newTexture;
 }
 
+void spritesDirectRender(SDL_Texture *texture, SDL_Rect *srcrect, SDL_Rect *dstrect) {
+	SDL_Renderer *renderer = rendererGet();
+	SDL_RenderCopyEx(renderer, texture, srcrect, dstrect, 0, NULL, SDL_FLIP_NONE);
+}
+
+void spritesDirectDrawUpdate(void) {
+	SDL_Renderer *renderer = rendererGet();
+	SDL_RenderPresent(renderer);
+}
+
+void spritesClearRender(void) {
+	SDL_RenderClear(rendererGet());
+}
+
 void spritesRender(void) {
 	SDL_Renderer *renderer = rendererGet();
-
-	SDL_RenderClear(renderer);
 
 	SDL_Rect rect;
 	for (unsigned int i = 0; i < spritesActiveCount; i++) {
@@ -110,7 +122,6 @@ void spritesRender(void) {
 		rect.h = currentSpriteNode->size.y;
 		SDL_RenderCopyEx(renderer, currentSpriteNode->texture, NULL, &rect, currentSpriteNode->angle, NULL, SDL_FLIP_NONE);
 	}
-	SDL_RenderPresent(renderer);
 }
 
 SpriteNode* spritesCreateNode(char *textureName) {

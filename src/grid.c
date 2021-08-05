@@ -1,31 +1,31 @@
 #include "grid.h";
 
-static GRID grid;
-static int gridWidth;
-static int gridHeight;
-
-void gridCreate(int height, int width) {
-	grid = malloc(height * width * sizeof(GRID_NODE));
-	gridWidth = width;
-	gridHeight = height;
+Grid* gridCreate(int height, int width) {
+	Grid *grid = malloc(sizeof(Grid));
+	grid->grid = malloc(height * width * sizeof(GRID_NODE));
+	grid->width = width;
+	grid->height = height;
 
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < height; j++) {
-			grid[i * width + j] = 0;
+			gridSet(j, i, (i + j) % 6, grid);
 		}
 	}
+
+	return grid;
 }
 
-GRID_NODE gridAccess(int x, int y) {
-	return grid[y * gridWidth + x];
+GRID_NODE gridAccess(int x, int y, Grid *grid) {
+	return grid->grid[y * grid->width + x];
 }
 
-void gridSet(int x, int y, GRID_NODE value) {
-	grid[y * gridWidth + x] = value;
+void gridSet(int x, int y, GRID_NODE value, Grid *grid) {
+	grid->grid[y * grid->width + x] = value;
 }
 
-void gridDestroy(void) {
+void gridDestroy(Grid *grid) {
 	if (grid != NULL) {
+		free(grid->grid);
 		free(grid);
 	}
 }

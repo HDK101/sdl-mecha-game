@@ -3,12 +3,19 @@
 
 #include <stdlib.h>
 
-#define GRID int*
+#define GRID_NODES int*
 #define GRID_NODE int
 
-void gridCreate(int height, int width);
-GRID_NODE gridAccess(int x, int y);
-void gridSet(int x, int y, GRID_NODE value);
-void gridDestroy(void);
+typedef struct StructGrid {
+	GRID_NODES grid;
+	int width;
+	int height;
+} Grid;
+
+
+Grid* gridCreate(int height, int width);
+GRID_NODE gridAccess(int x, int y, Grid *grid);
+void gridSet(int x, int y, GRID_NODE value, Grid *grid);
+void gridDestroy(Grid *grid);
 
 #endif
