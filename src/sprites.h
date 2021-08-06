@@ -24,9 +24,12 @@ typedef struct SpriteNodeStruct {
 void spritesLazyStart();
 
 void spritesAdd(SDL_Texture *texture, char *id);
-
 void spritesDestroy(void);
 
+void spritesDirectRender(SDL_Texture *texture, SDL_Rect *srcrect, SDL_Rect *dstrect);
+void spritesDirectDrawUpdate(void);
+
+void spritesClearRender(void);
 void spritesRender(void);
 
 SpriteNode* spritesCreateNode(char *textureName);
