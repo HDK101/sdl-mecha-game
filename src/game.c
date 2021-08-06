@@ -2,6 +2,10 @@
 
 static SpriteNode *spriteNode = NULL;
 
+void losTestes(CustomEvent *event) {
+	printf("Hellow");
+}
+
 void gameStart() {
 	spriteNode = spritesCreateNode("bigchungus.png");
 	spriteNode->position.x = 0;
@@ -10,6 +14,9 @@ void gameStart() {
 	spriteNode->size.y = 32;
 
 	tilemapCreate(25, 25 , 32);
+
+	CustomEvent *customEvent = eventsCreateCustom("teste", 4, losTestes);
+	customEvent->event(customEvent);
 }
 
 void gameEvent(SDL_Event *event) {

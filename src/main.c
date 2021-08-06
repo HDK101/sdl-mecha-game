@@ -9,6 +9,7 @@
 #include "renderer.h";
 #include "game.h";
 #include "tilemap.h";
+#include "eventChecker.h";
 
 const int WIDTH = 640;
 const int HEIGHT = 480;

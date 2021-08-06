@@ -6,6 +6,7 @@
 #include <math.h>
 #include "sprites.h";
 #include "tilemap.h";
+#include "eventChecker.h";
 
 void gameStart(void);
 void gameEvent(SDL_Event *event);
