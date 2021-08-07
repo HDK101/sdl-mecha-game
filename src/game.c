@@ -17,4 +17,5 @@ void gameEvent(SDL_Event *event) {
 }
 
 void gameLoop(void) {
+	playerLoop();
 }
