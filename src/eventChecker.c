@@ -1,13 +1,10 @@
 #include "eventChecker.h";
 
 static CustomEvent customEvents[MAX_CUSTOM_EVENTS];
+unsigned int customEventsLength = 0; 
 
-CustomEvent* eventsCreateCustom(char *name, int dataListSize, void (*event)(CustomEvent*)) {
-	unsigned long hashIndex = hash(name) % MAX_CUSTOM_EVENTS;
-
-	printf("%lu", hashIndex);
-
-	CustomEvent *customEvent = &customEvents[hashIndex];
+CustomEvent* eventsCreateCustom(int dataListSize, void (*event)(CustomEvent*)) {
+	CustomEvent *customEvent = &customEvents[customEventsLength];
 
 	customEvent->data = malloc(sizeof(CustomEventData) * dataListSize);
 	customEvent->event = event;
@@ -16,7 +13,11 @@ CustomEvent* eventsCreateCustom(char *name, int dataListSize, void (*event)(Cust
 }
 
 void eventsClearAll(void) {
-	for (unsigned long i = 0; i < MAX_CUSTOM_EVENTS; i++) {
-		free(customEvents[i].data);
+	for (unsigned int i = 0; i < MAX_CUSTOM_EVENTS; i++) {
+		CustomEvent *customEvent = &customEvents[i];
+		if (customEvents->data) {
+			free(customEvents[i].data);
+		}
+		customEvents->event = NULL;
 	}
 }

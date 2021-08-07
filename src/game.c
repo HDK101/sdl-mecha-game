@@ -15,7 +15,7 @@ void gameStart() {
 
 	tilemapCreate(25, 25 , 32);
 
-	CustomEvent *customEvent = eventsCreateCustom("teste", 4, losTestes);
+	CustomEvent *customEvent = eventsCreateCustom(4, losTestes);
 	customEvent->event(customEvent);
 }
 
