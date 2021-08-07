@@ -5,17 +5,7 @@
 #include "grid.h";
 #include "hash.h";
 
-#define MAX_CUSTOM_EVENTS 5000
-
-typedef enum EnumCommonEvents {
-	EVENT_SOLID,
-	EVENT_DAMAGE,
-} CommonEvents;
-
-typedef struct StructCommonEventChecker {
-	CommonEvents event;
-	Grid *grid;
-} CommonEventChecker;
+#define MAX_CUSTOM_EVENTS 300
 
 typedef union UnionCustomEventData {
 	int integerValue;
@@ -32,11 +22,7 @@ struct StructCustomEvent {
 	void (*event)(CustomEvent*);
 };
 
-typedef struct StructCustomEventChecker {
-	CustomEvent *customEvents;
-} CustomEventChecker;
-
-CustomEvent* eventsCreateCustom(char *name, int dataListSize, void (*event)(CustomEvent*));
+CustomEvent* eventsCreateCustom(int dataListSize, void (*event)(CustomEvent*));
 
 void eventsClearAll(void);
 
