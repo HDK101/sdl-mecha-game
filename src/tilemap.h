@@ -10,6 +10,7 @@
 typedef struct StructTile {
 	GRID_NODE node;
 	bool solid;
+	bool occupied;
 	bool damage;
 	double damageToCause;
 	unsigned int eventId;	

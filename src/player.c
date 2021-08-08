@@ -63,9 +63,12 @@ void playerLoop(void) {
 		positionCalcs.x += 1;
 	}
 
-	Tile *tile = tilemapAccess(positionCalcs.x, positionCalcs.y);
-
-	if (!tile->solid) {
+	Tile *tileBefore = tilemapAccess(player.entity->position.x, player.entity->position.y);
+	tileBefore->occupied = false;
+	
+	Tile *tileAfter = tilemapAccess(positionCalcs.x, positionCalcs.y);
+	if (!tileAfter->solid & !tileAfter->occupied) {
+		tileAfter->occupied = true;
 		player.entity->position = positionCalcs;
 		spriteNode->position = positionCalcs;
 		spriteNode->position.x *= 32;
