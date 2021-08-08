@@ -24,6 +24,7 @@ void tilemapCreate(int height, int width, int tileSizeValue) {
 			tilemapSet(x, y, x * y % 6);
 			Tile *tile = tilemapAccess(x, y);
 			tile->solid = (x * y % 6) > 4;
+			tile->occupied = false;
 		}
 	}
 
