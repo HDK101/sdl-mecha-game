@@ -17,6 +17,9 @@ Entity* entityCreate(EntityType type, double maxHealth) {
 	entity->position.x = 0;
 	entity->position.y = 0;
 	entity->initialized = true;
+
+	entitiesLength++;
+	return entity;
 }
 
 Entity* entityFindInPosition(Vector2 position) {

@@ -4,20 +4,14 @@
 #include <stdlib.h>
 #include "grid.h";
 #include "hash.h";
+#include "dataBlock.h";
 
 #define MAX_CUSTOM_EVENTS 300
-
-typedef union UnionCustomEventData {
-	int integerValue;
-	double doubleValue;
-	char charValue;
-	char *stringValue;
-} CustomEventData;
 
 typedef struct StructCustomEvent CustomEvent;
 
 struct StructCustomEvent {
-	CustomEventData *data;
+	DataBlock *data;
 	char *name;
 	void (*event)(CustomEvent*);
 };

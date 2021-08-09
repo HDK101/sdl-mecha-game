@@ -2,21 +2,24 @@
 
 static Player player;
 static bool playerInitialized = false;
-static SpriteNode *spriteNode = NULL;
 static Vector2 positionCalcs;
 static bool moveKeys[MOVE_KEYS_NUM];
 static Keystate moveKeysOnce[MOVE_KEYS_NUM];
 
+static void playerSetPosition(Vector2 position) {
+	player.entity->position = position;
+	player.spriteNode->position = position;
+}
 
 void playerInitialize(void) {
 	player.entity = entityCreate(PLAYER, 10.0);
 	playerInitialized = true;
 
-	spriteNode = spritesCreateNode("bigchungus.png");
-	spriteNode->position.x = 0;
-	spriteNode->position.y = 0;
-	spriteNode->size.x = 32;
-	spriteNode->size.y = 32;
+	player.spriteNode = spritesCreateNode("bigchungus.png");
+	player.spriteNode->position.x = 0;
+	player.spriteNode->position.y = 0;
+	player.spriteNode->size.x = 32;
+	player.spriteNode->size.y = 32;
 
 	moveKeysOnce[PLAYER_MOVE_UP] = IDLE;
 	moveKeysOnce[PLAYER_MOVE_LEFT] = IDLE;
@@ -36,7 +39,6 @@ void playerEvent(SDL_Event *event) {
 		moveKeys[PLAYER_MOVE_LEFT] = event->key.keysym.sym == SDLK_LEFT;
 		moveKeys[PLAYER_MOVE_RIGHT] = event->key.keysym.sym == SDLK_RIGHT;
 		
-
 		keysKeyPressOnce(event, SDLK_UP, &moveKeysOnce[PLAYER_MOVE_UP]);
 		keysKeyPressOnce(event, SDLK_LEFT, &moveKeysOnce[PLAYER_MOVE_LEFT]);
 		keysKeyPressOnce(event, SDLK_DOWN, &moveKeysOnce[PLAYER_MOVE_DOWN]);
@@ -67,12 +69,11 @@ void playerLoop(void) {
 	tileBefore->occupied = false;
 	
 	Tile *tileAfter = tilemapAccess(positionCalcs.x, positionCalcs.y);
-	if (!tileAfter->solid & !tileAfter->occupied) {
+	if (!tileAfter->solid && !tileAfter->occupied) {
 		tileAfter->occupied = true;
-		player.entity->position = positionCalcs;
-		spriteNode->position = positionCalcs;
-		spriteNode->position.x *= 32;
-		spriteNode->position.y *= 32;
+		playerSetPosition(positionCalcs);
+		player.spriteNode->position.x *= 32;
+		player.spriteNode->position.y *= 32;
 	}
 
 	keysKeyWaitForRelease(&moveKeysOnce[PLAYER_MOVE_UP]);
