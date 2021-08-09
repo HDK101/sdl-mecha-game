@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-w -Wall
+CFLAGS=-Wall -Wextra -pedantic
 LIBS=-lm -lSDL2 -lSDL2_image
 SOURCES=$(wildcard src/*.c)
 OBJECTS=$(patsubst %.c, %.o, $(SOURCES))

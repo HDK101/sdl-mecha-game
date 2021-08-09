@@ -1,6 +1,5 @@
 #include "sprites.h"
 
-#define MAX_SPRITES 5000
 
 typedef struct SpriteListNodeStruct {
 	SDL_Texture *texture;
@@ -9,16 +8,14 @@ typedef struct SpriteListNodeStruct {
 
 static char *spritesPath = "assets/sprites/";
 
-static Sprite *sprites;
+static Sprite sprites[MAX_SPRITES];
 unsigned int spritesCount = 0;
 
-static SpriteNode *spritesActive;
+static SpriteNode spritesActive[MAX_ACTIVE_SPRITES];
 unsigned int spritesActiveCount = 0;
 
 void spritesLazyStart(void) {
 	if (spritesCount == 0) {
-		sprites = malloc(sizeof(Sprite) * MAX_SPRITES);
-
 		for (int i = 0; i < MAX_SPRITES; i++) {
 			sprites[i].texture = NULL;
 			sprites[i].file = NULL;
@@ -47,8 +44,6 @@ void spritesDestroy(void) {
 			SDL_DestroyTexture(sprites[i].texture);
 		}
 	}
-
-	free(sprites);
 }
 
 SDL_Texture* spritesLoadTexture(char *filename) {
@@ -125,13 +120,6 @@ void spritesRender(void) {
 }
 
 SpriteNode* spritesCreateNode(char *textureName) {
-	if (spritesActiveCount == 0) {
-		spritesActive = malloc(sizeof(SpriteNode));
-	}
-	else {
-		spritesActive = realloc(spritesActive, sizeof(SpriteNode) * (spritesActiveCount + 1));
-	}
-
 	SpriteNode *spriteNode = &spritesActive[spritesActiveCount];
 	spriteNode->position.x = 0;
 	spriteNode->position.y = 0;
@@ -145,9 +133,8 @@ SpriteNode* spritesCreateNode(char *textureName) {
 	
 	spritesActiveCount++;
 
+	WRITE_LOG("Active sprites: %d\n", spritesActiveCount);
+
 	return spriteNode;
 }
 
-void spritesActiveDestroy(void) {
-	free(spritesActive);
-}

@@ -1,0 +1,15 @@
+gcc -g -c src/camera.c -o src/camera.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/dataBlock.c -o src/dataBlock.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/enemy.c -o src/enemy.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/entity.c -o src/entity.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/eventChecker.c -o src/eventChecker.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/game.c -o src/game.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/grid.c -o src/grid.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/hash.c -o src/hash.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/keys.c -o src/keys.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/main.c -o src/main.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/player.c -o src/player.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/renderer.c -o src/renderer.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/sprites.c -o src/sprites.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc -g -c src/tilemap.c -o src/tilemap.o -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image
+gcc  src/camera.o  src/dataBlock.o  src/enemy.o  src/entity.o  src/eventChecker.o  src/game.o  src/grid.o  src/hash.o  src/keys.o  src/main.o  src/player.o  src/renderer.o  src/sprites.o  src/tilemap.o -g -o  bin/main -Wall -Wextra -pedantic -lm -lSDL2 -lSDL2_image

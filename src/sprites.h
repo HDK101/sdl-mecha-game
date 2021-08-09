@@ -10,6 +10,9 @@
 #include "sourcePrint.h";
 #include "renderer.h";
 
+#define MAX_SPRITES 5000
+#define MAX_ACTIVE_SPRITES 200
+
 typedef struct SpriteNodeStruct {
 	Vector2 position;
 	Vector2 size;

@@ -21,6 +21,7 @@ typedef enum EnumKeys {
 
 typedef struct StructPlayer {
 	Entity *entity;
+	SpriteNode *spriteNode;
 } Player;
 
 void playerInitialize(void);

@@ -61,13 +61,14 @@ void terminate() {
 	rendererDestroy();
 
 	spritesDestroy();
-	spritesActiveDestroy();
 
 	window = NULL;
 	renderer = NULL;
 
 	IMG_Quit();
 	SDL_Quit();
+	
+	gameDestroy();
 }
 
 int main(int argc, char* args[]) {
@@ -92,6 +93,11 @@ int main(int argc, char* args[]) {
 
 				if (e.type == SDL_QUIT) {
 					quit = true;
+				}
+				if (e.type == SDL_KEYDOWN) {
+					if (e.key.keysym.sym == SDLK_ESCAPE) {
+						quit = true;
+					}
 				}
 			}
 
