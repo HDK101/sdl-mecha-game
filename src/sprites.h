@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "vector2.h";
-#include "hash.h";
-#include "sourcePrint.h";
-#include "renderer.h";
+#include "vector2.h"
+#include "hash.h"
+#include "sourcePrint.h"
+#include "renderer.h"
 
 #define MAX_SPRITES 5000
 #define MAX_ACTIVE_SPRITES 200

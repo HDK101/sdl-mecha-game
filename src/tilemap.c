@@ -1,4 +1,4 @@
-#include "tilemap.h";
+#include "tilemap.h"
 
 static Tilemap tilemap;
 static int tileSize = 32;
@@ -11,6 +11,8 @@ static void tilesetLoad(void) {
 }
 
 void tilemapCreate(int height, int width, int tileSizeValue) {
+	astarCreateGrid(width, height);
+
 	if (tilemap.tiles != NULL) {
 		free(tilemap.tiles);
 	}
@@ -23,7 +25,7 @@ void tilemapCreate(int height, int width, int tileSizeValue) {
 		for (int x = 0; x < tilemap.width; x++){
 			tilemapSet(x, y, x * y % 6);
 			Tile *tile = tilemapAccess(x, y);
-			tile->solid = (x * y % 6) > 4;
+			tilemapSetSolid(x, y, (x * y % 6) > 4);
 			tile->occupied = false;
 		}
 	}
@@ -44,11 +46,23 @@ Tile* tilemapAccess(int x, int y) {
 		return &tilemap.tiles[y * tilemap.width + x];
 	}
 	return NULL;
-};
+}
 
 void tilemapSet(int x, int y, GRID_NODE value) {
 	Tile *tile = tilemapAccess(x, y);
 	tile->node = value;
+}
+
+void tilemapSetSolid(int x, int y, bool isSolid) {
+	Tile *tile = tilemapAccess(x, y);
+	tile->solid = isSolid;
+	astarSetObstacle(x, y, isSolid);
+}
+
+void tilemapSetOccupied(int x, int y, bool isOccupied) {
+	Tile *tile = tilemapAccess(x, y);
+	tile->occupied = isOccupied;
+	astarSetOccupied(x, y, isOccupied);
 }
 
 void tilemapRender(void) {

@@ -4,13 +4,13 @@
 #include <SDL2/SDL_image.h>
 #include <math.h>
 
-#include "sprites.h";
-#include "hash.h";
-#include "renderer.h";
-#include "game.h";
-#include "tilemap.h";
-#include "eventChecker.h";
-#include "player.h";
+#include "sprites.h"
+#include "hash.h"
+#include "renderer.h"
+#include "game.h"
+#include "tilemap.h"
+#include "eventChecker.h"
+#include "player.h"
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -57,10 +57,10 @@ bool init() {
 }
 
 void terminate() {
-	SDL_DestroyWindow(window);
-	rendererDestroy();
-
 	spritesDestroy();
+
+	rendererDestroy();
+	SDL_DestroyWindow(window);
 
 	window = NULL;
 	renderer = NULL;
@@ -71,7 +71,7 @@ void terminate() {
 	gameDestroy();
 }
 
-int main(int argc, char* args[]) {
+int main(void) {
 	if(!init()) {
 		printf("Failed to initialize\n");    
 	}

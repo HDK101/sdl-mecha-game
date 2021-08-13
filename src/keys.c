@@ -1,4 +1,4 @@
-#include "keys.h";
+#include "keys.h"
 
 void keysKeyPressOnce(SDL_Event *event, SDL_Keycode keycode, Keystate *key) {
 	if (event->key.keysym.sym == keycode && *key == IDLE) {

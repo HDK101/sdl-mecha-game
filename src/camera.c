@@ -1,4 +1,4 @@
-#include "camera.h";
+#include "camera.h"
 
 static Vector2 cameraPosition;
 

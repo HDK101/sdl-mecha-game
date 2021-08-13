@@ -2,9 +2,9 @@
 #define EVENT_CHECKER_H
 
 #include <stdlib.h>
-#include "grid.h";
-#include "hash.h";
-#include "dataBlock.h";
+#include "grid.h"
+#include "hash.h"
+#include "dataBlock.h"
 
 #define MAX_CUSTOM_EVENTS 300
 

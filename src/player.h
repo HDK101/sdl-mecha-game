@@ -3,12 +3,12 @@
 
 #include <SDL2/SDL.h>
 #include <stdbool.h>
-#include "entity.h";
-#include "vector2.h";
-#include "sprites.h";
-#include "tilemap.h";
-#include "sourcePrint.h";
-#include "keys.h";
+#include "entity.h"
+#include "vector2.h"
+#include "sprites.h"
+#include "tilemap.h"
+#include "sourcePrint.h"
+#include "keys.h"
 
 #define MOVE_KEYS_NUM 4
 

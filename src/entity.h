@@ -2,7 +2,7 @@
 #define ENTITY_H
 
 #include <stdbool.h>
-#include "vector2.h";
+#include "vector2.h"
 
 #define MAX_ENTITIES_SIZE 200
 

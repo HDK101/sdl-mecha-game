@@ -1,4 +1,4 @@
-#include "enemy.h";
+#include "enemy.h"
 
 static Enemy enemies[MAX_ENEMIES_SIZE];
 static unsigned int enemiesLength = 0; 
