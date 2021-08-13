@@ -1,6 +1,6 @@
 #ifndef HASH_H
 #define HASH_H
 
-unsigned long hash(unsigned char *str);
+unsigned long hash(char *str);
 
 #endif

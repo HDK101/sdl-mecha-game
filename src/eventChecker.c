@@ -1,4 +1,4 @@
-#include "eventChecker.h";
+#include "eventChecker.h"
 
 static CustomEvent customEvents[MAX_CUSTOM_EVENTS];
 static unsigned int customEventsLength = 0; 

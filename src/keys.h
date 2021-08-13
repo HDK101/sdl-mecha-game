@@ -2,7 +2,7 @@
 #define KEYS_H
 
 #include <SDL2/SDL.h>
-#include "sourcePrint.h";
+#include "sourcePrint.h"
 
 typedef enum EnumKeystate {
 	IDLE,

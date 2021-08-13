@@ -1,4 +1,4 @@
-#include "entity.h";
+#include "entity.h"
 
 static Entity entities[MAX_ENTITIES_SIZE];
 static unsigned int entitiesLength = 0;

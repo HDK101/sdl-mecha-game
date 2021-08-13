@@ -1,4 +1,4 @@
-#include "dataBlock.h";
+#include "dataBlock.h"
 
 DataBlock *dataBlockCreate(unsigned int listSize) {
 	return malloc(sizeof(DataBlock) * listSize);

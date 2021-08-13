@@ -1,4 +1,4 @@
-#include "grid.h";
+#include "grid.h"
 
 Grid* gridCreate(int height, int width) {
 	Grid *grid = malloc(sizeof(Grid));
