@@ -1,0 +1,40 @@
+[ ] organize files: include, src
+[ ] implement player movement with mouse and astar algorithm
+[ ] enemy movement with astar algorithm
+[ ] implement level system 
+[ ] implement simple combat system
+  
+  stats:
+    strength
+    dexterity
+    intelligence
+
+  weapons:
+    fists >> strength
+    melee blunt >> strength
+    blades > strength > dexterity
+    pistols > intelligence > dexterity
+    rifles > intelligence > dexterity
+    shotguns > intelligence > intelligence
+    throwing weapons >> dexterity
+
+  consumables:
+    bandages 
+    painkiller >> temporary stats reduction
+
+  enemies:
+    genetic aberrations
+    robots
+    cyborgs
+    spirits
+
+  location:
+    house
+    prison
+    front garden
+    deep grounds
+      lab
+      cemetery
+
+  goal:
+    escape
